@@ -1,0 +1,6 @@
+framework module SolarEngineSDK {
+  umbrella header "SolarEngineSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

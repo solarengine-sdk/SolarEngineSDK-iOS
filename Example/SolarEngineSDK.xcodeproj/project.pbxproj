@@ -37,7 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0BCE0270EE3071494ACD60EB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		0BCE0270EE3071494ACD60EB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		22FCBA17BE4E238FC5E7EAE2 /* Pods-SolarEngineSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SolarEngineSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-SolarEngineSDK_Example/Pods-SolarEngineSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2BB9566200555A743B5E384B /* Pods_SolarEngineSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SolarEngineSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ED93502F9CD1505435F62E5 /* Pods-SolarEngineSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SolarEngineSDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SolarEngineSDK_Tests/Pods-SolarEngineSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -64,8 +64,8 @@
 		6BB0DE8BDA3B9F7B951C355A /* Pods_SolarEngineSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SolarEngineSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		88182693D48C79380E79CACA /* SolarEngineSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SolarEngineSDK.podspec; path = ../SolarEngineSDK.podspec; sourceTree = "<group>"; };
-		E1AABEB58EFEE4085F238C15 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		88182693D48C79380E79CACA /* SolarEngineSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SolarEngineSDK.podspec; path = ../SolarEngineSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E1AABEB58EFEE4085F238C15 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E2701159329635CC192E6B18 /* Pods-SolarEngineSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SolarEngineSDK_Example.release.xcconfig"; path = "Target Support Files/Pods-SolarEngineSDK_Example/Pods-SolarEngineSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,7 +103,6 @@
 				2ED93502F9CD1505435F62E5 /* Pods-SolarEngineSDK_Tests.debug.xcconfig */,
 				651A280A2C2519E445A5E854 /* Pods-SolarEngineSDK_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -259,6 +258,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

@@ -1,0 +1,22 @@
+{
+  "name": "SolarEngineSDK",
+  "version": "0.1.0",
+  "summary": "A short description of SolarEngineSDK.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/solarengine-sdk/SolarEngineSDK",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "solarengine-sdk": "sdk@solar-engine.com"
+  },
+  "source": {
+    "git": "https://github.com/solarengine-sdk/SolarEngineSDK.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "SolarEngineSDK/Classes/**/*"
+}
