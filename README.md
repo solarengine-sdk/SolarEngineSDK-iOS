@@ -6,7 +6,20 @@
 [![Platform](https://img.shields.io/cocoapods/p/SolarEngineSDK-iOS.svg?style=flat)](https://cocoapods.org/pods/SolarEngineSDK-iOS)
 
 
+
+|版本号| 更新时间  | 更新内容 |
+|---| ------ | -------- |
+| 1.0.0 | 2022-02-14 | 建立初稿 |
+| 1.0.1 |2022-03-17 | 修改 visitorId 逻辑 |
+| 1.0.2 |2022-05-12 | 请求 oneid 支持自定义域名；内部上报逻辑优化 |
+| 1.0.3 |2022-05-18 |  变现广告展示事件新增 mediationPlatform（聚合广告标识）字段，adNetworkAppID 改为非必填|
+| 1.1.0 |2022-06-08 | 增加变现广告点击事件、订单事件、注册事件和登录事件统计以及 ASA 广告归因服务|
+| 1.1.1 |2022-07-11 | _appInstall 事件更改为自动采集，不支持自定义触发时机； 内部逻辑优化 |
+
+
 ## 一、说明
+
+### 1. 适用范围
 
 SolarEngine 是一套支持高度自定义的数据分析系统，系统在数据埋点、属性设置、报表创建、看板配置等多方面都支持开发者按需求进行个性化定制。
 
@@ -17,6 +30,18 @@ SolarEngine iOS SDK 适用于 iOS 9.0 及以上的操作系统。
 
 **隐私权政策：**<https://portal.solar-engine.com/privacyPolicy>
 
+### 2. SDK 下载
+
+- 最新 SDK 版本为 1.1.1
+- 下载地址（请联系SolarEngine产品）
+
+
+
+### 3、使用Cocoapods集成SDK
+
+```
+pod 'SolarEngineSDK'
+```
 
 ## 二、接入流程
 
@@ -34,13 +59,28 @@ SolarEngine iOS SDK 适用于 iOS 9.0 及以上的操作系统。
 - userID 查询路径：账户管理-账号信息-密钥-16 位 userID
 
 ![](https://s4.ax1x.com/2022/02/21/Hj64w6.png)
+
+### 2.添加SDK所需依赖框架
+
+  使用 Security.framework 来存储设备标识,
+
+  使用 CoreTelephony.framework 来获取运营商信息,
+
+  使用 AdSupport.framework 来获取 Advertising Identifier 信息,
+
+  使用 SystemConfiguration.framework 来检查当前网络环境,
+
+  使用 libsqlite3.tbd 用来存储数据。
+  
+  使用 iAd.framework、 AdServices.framework、AppTrackingTransparency.framework 获取广告归因数据。
  
+  
+#### 添加方法：
 
-### 2、使用Cocoapods集成SDK
+在工程目录中,选择 TARGETS-->Build Phases-->Link Binary With Libraries-->+ -->选择 Security.framework、CoreTelephony.framework、AdSupport.framework、SystemConfiguration.framework、libsqlite3.tbd、 iAd.framework、AdServices.framework、AppTrackingTransparency.framework 等库文件。
 
-```
-pod 'SolarEngineSDK'
-```
+注：如上动态库请全部配置，避免报错。
+
 
 ## 三、接入方法说明
 
@@ -64,6 +104,24 @@ pod 'SolarEngineSDK'
 ```
 [[SolarEngineSDK sharedInstance] setAppKey:@"your_appKey" withSEUserId:@"your_userId"];
 ```
+
+
+### 使用SDK归因微服务请仔细阅读以下信息
+
+iOS 14.5 之后，iAd 服务需要用户 ATT 授权后才能获取归因数据，为了保证归因数据的准确度，建议开发者在用户 ATT 授权后再初始化 SolarEngineSDK。
+
+初始化实例
+
+```
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
+
+[ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+        NSString *your_appKey = @"your_appKey"; 
+        NSString *your_userId_SolarEngine = @"your_userId_SolarEngine"; 
+        [[SolarEngineSDK sharedInstance] setAppKey:your_appKey withSEUserId:your_userId_SolarEngine];
+}];
+```
+
 
 ### 2.开启 Debug 模式
 
@@ -105,29 +163,9 @@ pod 'SolarEngineSDK'
 [[SolarEngineSDK sharedInstance] setCustomURLString:@"https://xxx.xxx.com"];
 ```
 
-### 4.设置手动上报应用安装事件
+### 4.访客 ID & 账号 ID
 
-**需在 SDK 初始化之前调用**。
-
-```
-- (void)setIsTrackInstallEventManually:(BOOL)isTrackInstallEventManually;
-```
-
-参数说明：
-
-| **参数** | **类型**   | **是否必填** |  **说明**                             |
-| ------- | --------- | ----------- | ----------------------------- |
-| isTrackInstallEventManually   | BOOL | 是              |  默认不设置时为 NO，初始化 SDK 后自动上报应用安装（_appInstall） 事件。<br> 如果设置为 YES，需要主动调用 - (void)trackAppInstall 方法上报应用安装（_appInstall）事件。|      
-
-示例代码：
-
-```
-[[SolarEngineSDK sharedInstance] setIsTrackInstallEventManually:YES];
-```
-
-### 5.访客 ID & 账号 ID
-
-#### 5.1 访客 ID
+#### 4.1 访客 ID
 
 指用户在设备上安装了应用之后，登录状态之前该用户的唯一标识。
 
@@ -157,7 +195,7 @@ SDK 会用设备标识或随机生成唯一 ID 的方式作为访客 ID，该 ID
 NSString *visitorId = [[SolarEngineSDK sharedInstance] visitorID];
 ```
 
-#### 5.2 账号 ID
+#### 4.2 账号 ID
 
 指用户在应用中登录之后，登录账号在应用中的唯一标识。登录之前将以访客 ID 作为用户标识。
 
@@ -193,11 +231,11 @@ NSString *accountID = [[SolarEngineSDK sharedInstance] accountID];
 
 注意：该调用仅为通知 SDK 清除账号 ID，不会上报用户登出事件。
 
-### 6.事件上报
+### 5.事件上报
 
 在 SDK 初始化完成之后，您就可以调用下面方法来上报事件。
 
-#### 6.1 设置公共事件属性
+#### 5.1 设置公共事件属性
 
 对于一些重要的属性，譬如用户的会员等级、来源渠道等，这些属性需要设置在每个事件中，此时您可以将这些属性设置为公共事件属性。
 
@@ -223,47 +261,10 @@ NSDictionary *properties = @{@"vip_level":@(2)
 [[SolarEngineSDK sharedInstance] clearSuperProperties];
 ```
 
-#### 6.2 预定义事件
-
-##### 6.2.1 上报变现广告展示事件
-
-App 内变现广告展示时，报送该事件，用于进行广告展示及变现收入分析。
-
-```
-- (void)trackAdImpressionWithAttributes:(SEAdImpressionEventAttribute *)attribute;
-```
-
-`SEAdImpressionEventAttribute` 类参数介绍:
-
-参数名称 | 参数含义 | 参数类型 | 是否可以为空
-:-: | :-: | :-: | :-:
-adNetworkPlatform |  变现平台名称，枚举值如下（传值传前面的枚举简称即可）：<br> csj：穿山甲、ylh：优量汇、bqt：百青藤、ks：快手<br> sigmob：Sigmob、mintegral：Mintegral、oneway：OneWay、vungle：Vungle、facebook：Facebook、admob：AdMob、unity：UnityAds、is：IronSource、adtiming：AdTiming、klein：游可赢等| NSString | 否
-adType | 展示广告的类型，枚举值如下（传值传前面的枚举简称即可）：<br>1：激励视频、2：开屏、3：插屏、4：全屏视频、5：Banner、6：信息流、7：短视频信息流、8：大横幅 、9：视频贴片、10：其它| SolarEngineAdType | 否
-adNetworkAppID | 变现平台的应用 ID|NSString | 否
-adNetworkPlacementID | 变现平台的变现广告位 ID|NSString | 否
-ecpm | 广告ECPM（广告千次展现的变现收入，0或负值表示没传）|double | 否
-currency | 展示收益的货币种类，遵循《ISO 4217国际标准》，如 CNY、USD|NSString | 否
-rendered | 广告是否渲染成功,具体枚举值如下：<br>YES：成功、NO：失败|BOOL | 否
+####5.2 预定义事件
 
 
-**注：如果开发者不需要统计 rendered 参数，传 YES 即可。**
-
-
-示例代码:
-
-```
-SEAdImpressionEventAttribute *attribute = [[SEAdImpressionEventAttribute alloc] init];
-attribute.adNetworkPlatform = SEMonetizationPlatformNameCSJ;
-attribute.adType = SolarEngineAdTypeRewardVideo;
-attribute.adNetworkAppID = @"test_adNetworkAppID";
-attribute.adNetworkPlacementID = @"test_adNetworkPlacementID";
-attribute.currency = @"USD";
-attribute.ecpm = 13.14;
-attribute.rendered = YES;
-[[SolarEngineSDK sharedInstance] trackAdImpressionWithAttributes:attribute];
-```
-
-##### 6.2.2 上报应用内购买事件
+#####5.2.1 上报应用内购买事件
 
 App 内付费购买时，报送该事件，用于进行购买及内购收入分析
 
@@ -306,7 +307,157 @@ attribute.failReason = @"test_failReason";
 [[SolarEngineSDK sharedInstance] trackIAPWithAttributes:attribute];
 ```
 
-#### 6.3 自定义事件
+#####5.2.2 上报变现广告展示事件
+
+App 内变现广告展示时，报送该事件，用于进行广告展示及变现收入分析。
+
+```
+- (void)trackAdImpressionWithAttributes:(SEAdImpressionEventAttribute *)attribute;
+```
+
+`SEAdImpressionEventAttribute` 类参数介绍:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+adNetworkPlatform | 变现平台，前面为应传值，后面为平台名称<br>csj：穿山甲国内版<br>pangle：穿山甲国际版<br>tencent：腾讯优量汇<br>baidu：百度百青藤<br>kuaishou：快手<br>oppo：OPPO<br>vivo：vivo<br>mi：小米<br>huawei：华为<br>applovin：Applovin<br>sigmob：Sigmob<br>mintegral：Mintegral<br>oneway：OneWay<br>vungle：Vungle<br>facebook：Facebook<br>admob：AdMob<br>unity：UnityAds<br>is：IronSource<br>adtiming：AdTiming<br>klein：游可赢<br>fyber：Fyber<br>chartboost：Chartboost<br>adcolony：Adcolony| NSString | 否
+adType | 展示广告的类型，<br>1：激励视频、2：开屏、3：插屏、4：全屏视频、5：Banner、6：信息流、7：短视频信息流、8：大横幅 、9：视频贴片、10：其它| NSInteger | 否
+adNetworkAppID | 变现平台的应用 ID|NSString | 是
+adNetworkPlacementID | 变现平台的变现广告位 ID|NSString | 否
+mediationPlatform | 聚合平台标识，没有聚合平台标识，请设置为 "custom"|NSString | 否
+ecpm | 广告ECPM（广告千次展现的变现收入，0或负值表示没传），单位元|double | 否
+currency | 展示收益的货币种类，遵循《ISO 4217国际标准》，如 CNY、USD|NSString | 否
+rendered | 广告是否渲染成功,具体枚举值如下：<br>YES：成功、NO：失败|BOOL | 否
+
+
+
+**注：如果开发者不需要统计 rendered 参数，传 YES 即可。**
+
+
+示例代码:
+
+```
+SEAdImpressionEventAttribute *attribute = [[SEAdImpressionEventAttribute alloc] init];
+attribute.adNetworkPlatform = @"csj";
+attribute.adType = 1;
+attribute.adNetworkAppID = @"test_adNetworkAppID";
+attribute.adNetworkPlacementID = @"test_adNetworkPlacementID";
+attribute.mediationPlatform = @"custom";
+attribute.currency = @"USD";
+attribute.ecpm = 13.14;
+attribute.rendered = YES;
+[[SolarEngineSDK sharedInstance] trackAdImpressionWithAttributes:attribute];
+```
+
+#####5.2.3 上报变现广告点击事件
+
+App 内变现广告点击时，报送该事件，用于进行广告点击数据分析。
+
+```
+- (void)trackAdClickWithAttributes:(SEAdClickEventAttribute *)attribute;
+```
+
+`SEAdClickEventAttribute` 类参数介绍:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+adNetworkPlatform | 变现平台，前面为应传值，后面为平台名称<br>csj：穿山甲国内版<br>pangle：穿山甲国际版<br>tencent：腾讯优量汇<br>baidu：百度百青藤<br>kuaishou：快手<br>oppo：OPPO<br>vivo：vivo<br>mi：小米<br>huawei：华为<br>applovin：Applovin<br>sigmob：Sigmob<br>mintegral：Mintegral<br>oneway：OneWay<br>vungle：Vungle<br>facebook：Facebook<br>admob：AdMob<br>unity：UnityAds<br>is：IronSource<br>adtiming：AdTiming<br>klein：游可赢<br>fyber：Fyber<br>chartboost：Chartboost<br>adcolony：Adcolony| NSString | 否
+adType | 展示广告的类型，<br>1：激励视频、2：开屏、3：插屏、4：全屏视频、5：Banner、6：信息流、7：短视频信息流、8：大横幅 、9：视频贴片、10：其它| NSInteger | 否
+adNetworkPlacementID | 变现平台的变现广告位 ID|NSString | 否
+mediationPlatform | 聚合平台标识，没有聚合平台标识，请设置为 "custom"|NSString | 否
+
+
+示例代码:
+
+```
+SEAdClickEventAttribute *attribute = [[SEAdClickEventAttribute alloc] init];
+attribute.adNetworkPlatform = @"csj";
+attribute.adType = 1;
+attribute.adNetworkPlacementID = @"广告位id";
+attribute.mediationPlatform = @"custom";
+[[SolarEngineSDK sharedInstance] trackAdClickWithAttributes:attribute];
+```
+
+#####5.2.4 上报注册事件
+
+App 内用户注册时，报送该事件，用于进行用户注册数据分析。
+
+```
+- (void)trackRegisterWithAttributes:(SERegisterEventAttribute *)attribute;
+```
+
+`SERegisterEventAttribute` 类参数介绍:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+registerType | 注册类型，如 "WeChat"、"QQ" 等自定义值| NSString | 否 不超过 32 字符
+registerStatus | 注册状态 如 "success"| NSString | 是
+
+
+示例代码:
+
+```
+SERegisterEventAttribute *attribute = [[SERegisterEventAttribute alloc] init];
+attribute.registerType = @"WeChat";
+attribute.registerStatus = @"success";
+[[SolarEngineSDK sharedInstance] trackRegisterWithAttributes:attribute];
+```
+
+#####5.2.5 上报登录事件
+
+App 内用户登录时，报送该事件，用于进行用户登录数据分析。
+
+```
+- (void)trackLoginWithAttributes:(SELoginEventAttribute *)attribute;
+```
+
+`SELoginEventAttribute` 类参数介绍:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+loginType | 登录类型，如 "WeChat"、"QQ" 等自定义值| NSString | 否 不超过 32 字符
+loginStatus | 登录状态 如 "success"| NSString | 是
+
+
+示例代码:
+
+```
+SELoginEventAttribute *attribute = [[SELoginEventAttribute alloc] init];
+attribute.loginType = @"WeChat";
+attribute.loginStatus = @"success";
+[[SolarEngineSDK sharedInstance] trackLoginWithAttributes:attribute];
+```
+
+#####5.2.6 上报订单事件
+
+用于进行订单数据分析。
+
+```
+- (void)trackOrderWithAttributes:(SEOrderEventAttribute *)attribute;
+```
+
+`SEOrderEventAttribute` 类参数介绍:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+orderID | 订单 ID | NSString | 否 不超过 128 字符
+payAmount | 订单金额，单位：元 | double | 否 
+currencyType | 展示收益的货币种类，遵循《ISO 4217国际标准》，如 CNY、USD | NSString | 否
+payType | 支付方式：如 alipay、weixin、applepay、paypal 等| NSString | 是 不超过 32 字符
+status | 订单状态| NSString | 是
+
+示例代码:
+
+```
+SEOrderEventAttribute *attribute = [[SEOrderEventAttribute alloc] init];
+attribute.orderID = @"1000000";
+attribute.payAmount = 3.14;
+attribute.currencyType = @"CNY";
+attribute.payType = @"aliPay";
+attribute.status = @"success";
+[[SolarEngineSDK sharedInstance] trackOrderWithAttributes:attribute];
+```
+
+#### 5.3 自定义事件
 
 您可以调用 `track:withProperties:` 来上报事件，建议您根据先前梳理的文档来设置事件的属性以及发送信息的条件，此处以用户购买某商品作为范例：
 
@@ -329,7 +480,7 @@ NSDictionary *properties = @{ @"product_name" : @"商品名",
 - Value 为该属性的值，支持 `NSString`、`NSNumber` 和 `NSArray`。 对于 `NSArray` 的元素，只支持字符串类型，对于其他类型都将强制转为字符串存储。
 
 
-#### 6.4 时长事件
+#### 5.4 时长事件
 
 如果您需要记录某个事件的持续时长，可以调用 `eventStart:` 来开始计时，配置您想要计时的事件名称，当您结束该事件时，需要调用 `eventFinish:properties:`，它将会自动在您的事件属性中加入 `_duration` 这一属性来表示记录的时长，单位为秒。需要注意的是，同一个事件名只能有一个在计时的任务。
 
@@ -342,25 +493,11 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 [[SolarEngineSDK sharedInstance] eventFinish:@"Enter_Shop" properties:properties];
 ```
 
-#### 6.5 应用安装事件
-
-需配合 `- (void)setIsTrackInstallEventManually:(BOOL)isTrackInstallEventManually;` 且`isTrackInstallEventManually` 为 `YES` 时使用。
-
-```
-- (void)trackAppInstall;
-```
-
-示例代码：
-
-```
-[[SolarEngineSDK sharedInstance] trackAppInstall];
-```
-
-### 7.用户属性
+### 6.用户属性
 
 平台目前支持的用户属性设置接口为 `userInit`、`userUpdate`、`userAdd`、`userUnset`、`userAppend`、`userDelete`。
 
-#### 7.1 userInit
+#### 6.1 userInit
 
 如果您要上传的用户属性只要设置一次，则可以调用 `userInit ` 来进行设置，当该属性之前已经有值的时候，将会忽略这条信息，以设置首次付费时间来为例：
 
@@ -368,7 +505,7 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 [[SolarEngineSDK sharedInstance] userInit:@{ @"Name" : @"Tom", @"City" : @"Beijing", @"Age" : @(18), @"Books" : @[@"b1", @"b2"] }];
 ```
 
-#### 7.2 userUpdate
+#### 6.2 userUpdate
 
 对于一般的用户属性，您可以调用 `userUpdate` 来进行设置，使用该接口上传的属性将会覆盖原有的属性值，如果之前不存在该用户属性，则会新建该用户属性，类型与传入属性的类型一致，此处以设置城市为例：
 
@@ -377,7 +514,7 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 // 此时 "City" 为"Shenzhen"
 ```
 
-#### 7.3 userAdd
+#### 6.3 userAdd
 
 当您要上传数值型的属性时，您可以调用 `userAdd` 来对该属性进行累加操作，如果该属性还未被设置，则会赋值 0 后再进行计算，可传入负值，等同于相减操作。此处以累计付费金额为例：
 
@@ -390,7 +527,7 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 
 > `userAdd` 设置的属性类型以及 Key 值的限制与 `userUpdate` 一致，但 Value 只允许 `NSNumber` 类型。
 
-#### 7.4 userUnset
+#### 6.4 userUnset
 
 当您要清空用户的用户属性值时，您可以调用 `userUnset` 来对指定属性（字符串数组）进行清空操作，如果该属性还未在集群中被创建，则 `unset` **不会**创建该属性
 
@@ -401,7 +538,7 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 > `userUnset` 传入的参数是用户属性的属性名，类型是字符串数组。
 
 
-#### 7.5 userAppend
+#### 6.5 userAppend
 
 您可以调用 `userAppend` 对数组类型的用户属性进行追加操作。
 
@@ -410,7 +547,7 @@ NSDictionary *properties = @{ @"product_id" : @"A1354" };
 [[SolarEngineSDK sharedInstance] userAppend:@{ @"Books" : @[ @"b3", @"b4" ] }];
 ```
 
-#### 7.6 userDelete
+#### 6.6 userDelete
 
 如果您要删除某个用户，可以调用 `userDelete` 将这名用户删除，您将无法再查询该名用户的用户属性，但该用户产生的事件仍然可以被查询到。
 

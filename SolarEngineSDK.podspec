@@ -8,12 +8,12 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SolarEngineSDK'
-  s.version          = '1.0.3'
+  s.version          = '1.1.1'
   s.summary          = 'Official SolarEngineSDK for iOS.'
 
   s.homepage         = 'https://www.solar-engine.com'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.summary          = 'Official SolarEngineSDK for iOS.'
   s.author           = { 'solar-engine' => 'sdk@solar-engine.com' }
   s.source           = { :git => 'https://github.com/solarengine-sdk/SolarEngineSDK-iOS.git', :tag => s.version.to_s }
 
