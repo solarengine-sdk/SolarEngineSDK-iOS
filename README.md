@@ -1,12 +1,5 @@
 # SolarEngineSDK-iOS
 
-[![CI Status](https://img.shields.io/travis/leopardpan/SolarEngineSDK-iOS.svg?style=flat)](https://travis-ci.org/leopardpan/SolarEngineSDK-iOS)
-[![Version](https://img.shields.io/cocoapods/v/SolarEngineSDK-iOS.svg?style=flat)](https://cocoapods.org/pods/SolarEngineSDK-iOS)
-[![License](https://img.shields.io/cocoapods/l/SolarEngineSDK-iOS.svg?style=flat)](https://cocoapods.org/pods/SolarEngineSDK-iOS)
-[![Platform](https://img.shields.io/cocoapods/p/SolarEngineSDK-iOS.svg?style=flat)](https://cocoapods.org/pods/SolarEngineSDK-iOS)
-
-
-
 |版本号| 更新时间  | 更新内容 |
 |---| ------ | -------- |
 | 1.0.0 | 2022-02-14 | 建立初稿 |
