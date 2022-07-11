@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SEEventConstants.h"
+#import <SolarEngineSDK/SEEventConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,12 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 设置自定义 URL。需在 SDK 初始化之前调用
 /// @param urlString 自定义 URL
 - (void)setCustomURLString:(NSString *)urlString;
-
-/// 是否手动上报应用安装（_appInstall） 事件。需在 SDK 初始化之前调用
-/// 默认为 NO，初始化 SDK 后自动上报应用安装（_appInstall） 事件。
-/// 如果设置为 YES，需要主动调用 - (void)trackAppInstall 方法上报应用安装（_appInstall）事件。
-/// @param isTrackInstallEventManually 是否自动上报
-- (void)setIsTrackInstallEventManually:(BOOL)isTrackInstallEventManually;
 
 #pragma 事件
 
@@ -73,9 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param eventName 事件名
 /// @param properties 自定义属性
 - (void)eventFinish:(NSString *)eventName properties:(NSDictionary * _Nullable )properties;
-
-/// 手动上报应用安装（_appInstall）事件
-- (void)trackAppInstall;
 
 #pragma 访客 ID
 

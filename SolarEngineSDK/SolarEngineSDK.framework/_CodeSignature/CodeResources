@@ -6,11 +6,11 @@
 	<dict>
 		<key>Headers/SEEventConstants.h</key>
 		<data>
-		hTrfMQwHzVkxGSwsKlyVHCiKHMI=
+		QTa6kXMhbNiagdbAZnOBPx+uXEc=
 		</data>
 		<key>Headers/SolarEngineSDK.h</key>
 		<data>
-		qQyOHGlk1u9iKRA4XHqLZRYwlHY=
+		3hYOHCR4rlTbwGsx40mr7ONL52o=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -27,22 +27,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hTrfMQwHzVkxGSwsKlyVHCiKHMI=
+			QTa6kXMhbNiagdbAZnOBPx+uXEc=
 			</data>
 			<key>hash2</key>
 			<data>
-			QURRKSaCd7g7dyFn6o/n70ZvMh1F4ao81KJ9xMIKKRg=
+			RhZmvuNHHXDYJ1UjDbaeA0zqZCorxYSThJgXRKrwj+0=
 			</data>
 		</dict>
 		<key>Headers/SolarEngineSDK.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qQyOHGlk1u9iKRA4XHqLZRYwlHY=
+			3hYOHCR4rlTbwGsx40mr7ONL52o=
 			</data>
 			<key>hash2</key>
 			<data>
-			Z3m/UPW7z3/UKV66g9nDUxpwg5P17+txf/Tp00WAoGs=
+			B3N5jZuSfgQLH9AJh/xgRcDXAhPfBFXb6CUYApFlwdA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
