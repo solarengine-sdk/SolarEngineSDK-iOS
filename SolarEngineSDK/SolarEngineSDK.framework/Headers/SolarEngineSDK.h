@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param urlString 自定义 URL
 - (void)setCustomURLString:(NSString *)urlString;
 
+/// 设置预置事件属性
+/// @param eventType 事件类型
+/// @param properties 事件属性
+- (void)setPresetEvent:(SEPresetEventType)eventType withProperties:(NSDictionary*)properties;
+
 #pragma 事件
 
 /// 上报自定义事件

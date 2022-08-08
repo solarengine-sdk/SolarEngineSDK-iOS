@@ -9,6 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 内置事件类型
+typedef NS_ENUM(NSUInteger, SEPresetEventType) {
+    SEPresetEventTypeAppInstall,
+    SEPresetEventTypeAppStart,
+    SEPresetEventTypeAppEnd,
+    SEPresetEventTypeAppAll // 该事件表示全部内置事件
+};
+
 /*
 该枚举自 SDK v1.1.0（包含）版本后废弃。需要传相应的字符串值（即下方应传值），
 
@@ -182,7 +190,10 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 @property (nonatomic, assign) SolarEngineIAPStatus payStatus;
 
 /// 支付失败的原因
-@property (nonatomic, copy)  NSString *failReason;
+@property (nonatomic, copy) NSString *failReason;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -256,6 +267,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 /// 是否渲染（默认值为 YES）
 @property (nonatomic, assign) BOOL rendered;
 
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
 @end
 
 
@@ -268,6 +282,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 /// 注册状态
 @property (nonatomic, copy) NSString *registerStatus;
 
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
 @end
 
 /// 登录事件属性
@@ -278,6 +295,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 /// 登录状态
 @property (nonatomic, copy) NSString *loginStatus;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -298,6 +318,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 /// 订单状态
 @property (nonatomic, copy) NSString *status;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -358,6 +381,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 /// mediationPlatform 聚合平台标识，没有聚合平台标识，请设置为 "custom"
 @property (nonatomic, copy, nonnull) NSString *mediationPlatform;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
