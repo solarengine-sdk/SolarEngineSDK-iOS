@@ -7,7 +7,7 @@
 | 1.0.3 |2022-05-18 |  变现广告展示事件新增 mediationPlatform（聚合广告标识）字段，adNetworkAppID 改为非必填|
 | 1.1.0 |2022-06-08 | 增加变现广告点击事件、订单事件、注册事件和登录事件统计以及 ASA 广告归因服务|
 | 1.1.1 |2022-07-11 | `_appInstall` 事件更改为自动采集，不支持自定义触发时机； 内部逻辑优化 |
-| 1.1.2 |2022-08-08 | 增加 `_distinct_id` 和 `_distinct_id_type` 属性，用来标识设备 ID 和取值类型;<br>支持预定义事件增加自定义属性;<br>增加自定义属性命名检查，不支持以 “_” 开头;<br>优化 `_appInstall` 事件的 `_is_first_time` 和 `_is_first_day` 判断逻辑<br>|
+| 1.1.2 |2022-08-08 | 增加 `_distinct_id` 和 `_distinct_id_type` 属性，用来标识设备 ID 和取值类型;<br>支持预定义事件增加自定义属性;<br>增加自定义属性命名检查，不支持以 “_” 开头;<br>优化 `_appInstall` 事件的 `_is_first_time` 和 `_is_first_day` 判断逻辑<br> 优化 `_visitor_id` 取值逻辑|
 
 
 
