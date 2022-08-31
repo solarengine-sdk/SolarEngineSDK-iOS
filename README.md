@@ -8,7 +8,8 @@
 | 1.1.0 |2022-06-08 | 增加变现广告点击事件、订单事件、注册事件和登录事件统计以及 ASA 广告归因服务|
 | 1.1.1 |2022-07-11 | `_appInstall` 事件更改为自动采集，不支持自定义触发时机； 内部逻辑优化 |
 | 1.1.2 |2022-08-08 | 增加 `_distinct_id` 和 `_distinct_id_type` 属性，用来标识设备 ID 和取值类型;<br>支持预定义事件增加自定义属性;<br>增加自定义属性命名检查，不支持以 “_” 开头;<br>优化 `_appInstall` 事件的 `_is_first_time` 和 `_is_first_day` 判断逻辑<br> 优化 `_visitor_id` 取值逻辑|
-|1.1.3|2022-08-17|修复延迟初始化 SDK 可能导致 _appStart 事件缺失 _appKey 问题|
+|1.1.3|2022-08-17|修复延迟初始化 SDK 可能导致 `_appStart` 事件缺失 `_appKey` 问题|
+|1.1.4|2022-08-31| SDK 预置事件逻辑优化;<br>iOS 16系统版本兼容优化;|
 
 
 
@@ -27,7 +28,7 @@ SolarEngine iOS SDK 适用于 iOS 9.0 及以上的操作系统。
 
 ### 2. SDK 下载
 
-- 最新 SDK 版本为 1.1.3
+- 最新 SDK 版本为 1.1.4
 - [下载地址](https://alidocs.dingtalk.com/i/team/l2AmoV1eegV78Xdb/docs/l2AmoZl3WDeo8Xdb#) 
 
 

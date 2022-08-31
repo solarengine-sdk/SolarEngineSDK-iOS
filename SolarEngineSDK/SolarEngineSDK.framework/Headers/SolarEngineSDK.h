@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma 事件
 
 /// 上报自定义事件
-/// @param eventName 事件名称
+/// @param eventName 事件名称 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 /// @param properties 事件属性
 - (void)track:(NSString *)eventName withProperties:(NSDictionary *)properties;
 
@@ -65,11 +65,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackOrderWithAttributes:(SEOrderEventAttribute *)attribute;
 
 /// 开启记录时长事件（配合 - eventFinish:properties: 方法一起使用 ）
-/// @param eventName 事件名
+/// @param eventName 事件名 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 - (void)eventStart:(NSString *)eventName;
 
 /// 结束并上报记录时长事件（配合 - eventStart: 方法一起使用 ）
-/// @param eventName 事件名
+/// @param eventName 事件名 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 /// @param properties 自定义属性
 - (void)eventFinish:(NSString *)eventName properties:(NSDictionary * _Nullable )properties;
 
