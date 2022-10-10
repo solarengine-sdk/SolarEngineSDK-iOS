@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 初始化 SDK
 /// @param appKey  应用 appKey，请联系商务人员获取。不允许空
-/// @param SEUserId 用户 ID
+/// @param SEUserId 用户 ID，请联系商务人员获取。不允许空
 - (void)setAppKey:(nonnull NSString *)appKey withSEUserId:(nonnull NSString *)SEUserId;
 
 /// 是否开启 Debug 模式（不设置时默认不开启 Debug 模式）
@@ -51,6 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 上报变现广告点击事件
 /// @param attribute  SEAdClickEventAttribute 实例
 - (void)trackAdClickWithAttributes:(SEAdClickEventAttribute *)attribute;
+
+/// 上报归因事件
+/// @param attribute SEAppAttrEventAttribute 实例
+- (void)trackAppAttrWithAttributes:(SEAppAttrEventAttribute *)attribute;
 
 /// 上报注册事件
 /// @param attribute  SERegisterEventAttribute 实例

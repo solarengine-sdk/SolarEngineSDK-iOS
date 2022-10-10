@@ -73,6 +73,20 @@ extern NSString * const SEAdImpressionPropertyCurrency;
 extern NSString * const SEAdImpressionPropertyMediationPlatform;
 extern NSString * const SEAdImpressionPropertyRendered;
 
+
+extern NSString * const SEAppAttrPropertyIsAttr;
+extern NSString * const SEAppAttrPropertyAdNetwork;
+extern NSString * const SEAppAttrPropertySubChannel;
+extern NSString * const SEAppAttrPropertyAdAccountID;
+extern NSString * const SEAppAttrPropertyAdAccountName;
+extern NSString * const SEAppAttrPropertyAdCampaignID;
+extern NSString * const SEAppAttrPropertyAdCampaignName;
+extern NSString * const SEAppAttrPropertyAdOfferID;
+extern NSString * const SEAppAttrPropertyAdOfferName;
+extern NSString * const SEAppAttrPropertyAdCreativeID;
+extern NSString * const SEAppAttrPropertyAdCreativeName;
+extern NSString * const SEAppAttrPropertyAttributionPlatform;
+
 /*
  IAP Event properties
  */
@@ -387,9 +401,50 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 @end
 
+@interface SEAppAttrEventAttribute : NSObject
+
+// 投放广告的渠道 ID，需要与发行平台匹配
+@property (nonatomic, copy) NSString *adNetwork;
+
+// 投放广告的子渠道
+@property (nonatomic, copy) NSString *subChannel;
+
+// 投放广告的投放账号 ID
+@property (nonatomic, copy) NSString *adAccountID;
+
+// 投放广告的投放账号名称
+@property (nonatomic, copy) NSString *adAccountName;
+
+// 投放广告的广告计划 ID
+@property (nonatomic, copy) NSString *adCampaignID;
+
+// 投放广告的广告计划名称
+@property (nonatomic, copy) NSString *adCampaignName;
+
+// 投放广告的广告单元 ID
+@property (nonatomic, copy) NSString *adOfferID;
+
+// 投放广告的广告单元名称
+@property (nonatomic, copy) NSString *adOfferName;
+
+// 投放广告的广告创意 ID
+@property (nonatomic, copy) NSString *adCreativeID;
+
+// 投放广告的广告创意名称
+@property (nonatomic, copy) NSString *adCreativeName;
+
+// 监测平台
+@property (nonatomic, copy) NSString *attributionPlatform;
+
+// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
+@end
+
 
 @interface SEEventConstants : NSObject
 
 @end
+
 
 NS_ASSUME_NONNULL_END

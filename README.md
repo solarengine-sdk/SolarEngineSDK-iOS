@@ -7,9 +7,10 @@
 | 1.0.3 |2022-05-18 |  变现广告展示事件新增 mediationPlatform（聚合广告标识）字段，adNetworkAppID 改为非必填|
 | 1.1.0 |2022-06-08 | 增加变现广告点击事件、订单事件、注册事件和登录事件统计以及 ASA 广告归因服务|
 | 1.1.1 |2022-07-11 | `_appInstall` 事件更改为自动采集，不支持自定义触发时机； 内部逻辑优化 |
-| 1.1.2 |2022-08-08 | 增加 `_distinct_id` 和 `_distinct_id_type` 属性，用来标识设备 ID 和取值类型;<br>支持预定义事件增加自定义属性;<br>增加自定义属性命名检查，不支持以 “_” 开头;<br>优化 `_appInstall` 事件的 `_is_first_time` 和 `_is_first_day` 判断逻辑<br> 优化 `_visitor_id` 取值逻辑|
+| 1.1.2 |2022-08-08 | 增加 `_distinct_id` 和 `_distinct_id_type` 属性，用来标识设备 ID 和取值类型;<br>支持预定义事件增加自定义属性;<br>增加自定义属性命名检查，不支持以 “_” 开头;<br>优化 `_appInstall` 事件的 `_is_first_time` 和 `_is_first_day` 判断逻辑<br>优化 `_visitor_id` 取值逻辑 |
 |1.1.3|2022-08-17|修复延迟初始化 SDK 可能导致 `_appStart` 事件缺失 `_appKey` 问题|
 |1.1.4|2022-08-31| SDK 预置事件逻辑优化;<br>iOS 16系统版本兼容优化;|
+|1.1.5.0|2022-10-10| 支持自定义触发归因安装事件 |
 
 
 
@@ -29,7 +30,7 @@ SolarEngine iOS SDK 适用于 iOS 9.0 及以上的操作系统。
 ### 2. SDK 下载
 
 - 最新 SDK 版本为 1.1.4
-- [下载地址](https://alidocs.dingtalk.com/i/team/l2AmoV1eegV78Xdb/docs/l2AmoZl3WDeo8Xdb#) 
+- 下载地址（请联系SolarEngine产品）
 
 
 
@@ -180,9 +181,9 @@ SDK 会用设备标识或随机生成唯一 ID 的方式作为访客 ID，该 ID
 [[SolarEngineSDK sharedInstance] setVisitorID:@"vid8709901241"];
 ```
 
-**注意：  
-1.该调用仅为向 SDK 传入访客 ID，不会上报用户设置事件。  
-2.开发者设置的访客ID长度不能超过128个字符，否则会设置失败。**
+注意：
+1.该调用仅为向 SDK 传入访客 ID，不会上报用户设置事件。
+2.开发者设置的访客ID长度不能超过128个字符，否则会设置失败。
 
 - **获取访客 ID**
 
@@ -209,9 +210,9 @@ NSString *visitorId = [[SolarEngineSDK sharedInstance] visitorID];
 [[SolarEngineSDK sharedInstance] loginWithAccountID:@"aid25491084"];
 ```
 
-**注意：  
-1.该调用仅为向 SDK 传入账号 ID，不会上报用户登录事件。  
-2.开发者设置的账号ID长度不能超过128个字符，否则会设置失败。**
+注意：
+1.该调用仅为向 SDK 传入账号 ID，不会上报用户登录事件。
+2.开发者设置的账号ID长度不能超过128个字符，否则会设置失败。
 
 - **获取账号 ID**
 
@@ -284,7 +285,7 @@ NSDictionary *properties = @{@"vip_level":@(2)
 参数名称 | 参数含义 | 参数类型 | 是否可以为空
 :-: | :-: | :-: | :-:
 eventType |  预置事件枚举，具体如下：SEPresetEventTypeAppInstall(安装事件)、SEPresetEventTypeAppStart(启动事件)、SEPresetEventTypeAppEnd(退出事件)、SEPresetEventTypeAll(全部预置事件，即包含安装、启动、退出事件) | SEPresetEventType | 否
-properties | 自定义属性| NSDictionary * | 是
+properties | 自定义属性| NSDictionary | 是
 
 
 **注：1.设置预置事件自定义属性的方法可以在热力引擎SDK初始化之前设置，这样设置的属性会适用于所有后续SDK产生的预置事件，如果在SDK初始化之后在设置，在此之前产生的预置事件会不包含这些设置的自定义属性。**
@@ -339,7 +340,7 @@ productName | 商品名称 | NSString | 否
 productCount | 购买商品的数量| NSInteger | 否
 payStatus | 支付状态,具体枚举值如下（传值传前面的枚举简称即可）：<br> SolarEngineIAPSuccess:成功 SolarEngineIAPFail:失败、SolarEngineIAPRestored:恢复|SolarEngineIAPStatus | 否
 failReason |  支付失败的原因| NSString | 是
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 
 **注：支付失败原因failReason参数仅在 payStatus 参数为 SolarEngineIAPFail 支付失败时才会传入，其他状态传""即可。**
@@ -385,7 +386,7 @@ mediationPlatform | 聚合平台标识，没有聚合平台标识，请设置为
 ecpm | 广告ECPM（广告千次展现的变现收入，0或负值表示没传），单位元|double | 否
 currency | 展示收益的货币种类，遵循《ISO 4217国际标准》，如 CNY、USD|NSString | 否
 rendered | 广告是否渲染成功,具体枚举值如下：<br>YES：成功、NO：失败|BOOL | 否
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 **注：如果开发者不需要统计 rendered 参数，传 YES 即可。**
 
@@ -425,7 +426,7 @@ adNetworkPlatform | 变现平台，前面为应传值，后面为平台名称<br
 adType | 展示广告的类型，<br>1：激励视频、2：开屏、3：插屏、4：全屏视频、5：Banner、6：信息流、7：短视频信息流、8：大横幅 、9：视频贴片、10：其它| NSInteger | 否
 adNetworkPlacementID | 变现平台的变现广告位 ID|NSString | 否
 mediationPlatform | 聚合平台标识，没有聚合平台标识，请设置为 "custom"|NSString | 否
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 
 示例代码:
@@ -443,7 +444,60 @@ attribute.customProperties = @{
 [[SolarEngineSDK sharedInstance] trackAdClickWithAttributes:attribute];
 ```
 
-#####5.3.4 上报注册事件
+#####5.3.4 上报自归因安装事件
+
+增加归因安装事件，支持统计归因数据，满足客户使用三方归因或者自归因之后的结果数据回传到自定义分析，上报时机支持开发者自定义触发。
+自归因事件的 \_event_name 为 _appAttr
+
+方法示例:
+
+```
+/// 上报归因事件
+/// @param attribute SEAppAttrEventAttribute 实例
+- (void)trackAppAttrWithAttributes:(SEAppAttrEventAttribute *)attribute;
+```
+
+参数相关:
+
+参数名称 | 参数含义 | 参数类型 | 是否可以为空
+:-: | :-: | :-: | :-:
+adNetwork |  投放广告的渠道 ID，需要与发行平台匹配| NSString | 否
+subChannel | 投放广告的子渠道| NSString | 是
+adAccountID | 投放广告的投放账号 ID| NSString | 是
+adAccountName | 投放广告的投放账号名称 | NSString |是
+adCampaignID | 投放广告的广告计划 ID | NSString |是
+adCampaignName | 投放广告的广告计划名称 | NSString |是
+adOfferID | 投放广告的广告单元 ID | NSString |是
+adOfferName | 投放广告的广告单元名称 | NSString |是
+adCreativeID | 投放广告的广告创意 ID | NSString |是
+adCreativeName | 投放广告的广告创意名称 | NSString |是
+attributionPlatform | 监测平台 | NSString |否
+customProperties | 开发者传入的自定义属性| NSDictionary | 是
+
+示例代码：
+
+```
+SEAppAttrEventAttribute *attribute = [[SEAppAttrEventAttribute alloc] init];
+attribute.adNetwork = @"adNetwork";
+attribute.subChannel = @"subChannel";
+attribute.adAccountID = @"adAccountID";
+attribute.adAccountName = @"adAccountName";
+attribute.adCampaignID = @"adCampaignID";
+attribute.adCampaignName = @"adCampaignName";
+attribute.adOfferID = @"adOfferID";
+attribute.adOfferName = @"adOfferName";
+attribute.adCreativeID = @"adCreativeID";
+attribute.adCreativeName = @"adCreativeName";
+attribute.attributionPlatform = @"attributionPlatform";
+attribute.customProperties = @{
+	@"name": @"Tom",
+	@"age" : @18
+};
+[[SolarEngineSDK sharedInstance] trackAppAttrWithAttributes:attribute];
+```
+
+
+#####5.3.5 上报注册事件
 
 App 内用户注册时，报送该事件，用于进行用户注册数据分析。
 
@@ -457,7 +511,7 @@ App 内用户注册时，报送该事件，用于进行用户注册数据分析�
 :-: | :-: | :-: | :-:
 registerType | 注册类型，如 "WeChat"、"QQ" 等自定义值| NSString | 否 不超过 32 字符
 registerStatus | 注册状态 如 "success"| NSString | 是
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 示例代码:
 
@@ -472,7 +526,7 @@ attribute.customProperties = @{
 [[SolarEngineSDK sharedInstance] trackRegisterWithAttributes:attribute];
 ```
 
-#####5.3.5 上报登录事件
+#####5.3.6 上报登录事件
 
 App 内用户登录时，报送该事件，用于进行用户登录数据分析。
 
@@ -486,7 +540,7 @@ App 内用户登录时，报送该事件，用于进行用户登录数据分析�
 :-: | :-: | :-: | :-:
 loginType | 登录类型，如 "WeChat"、"QQ" 等自定义值| NSString | 否 不超过 32 字符
 loginStatus | 登录状态 如 "success"| NSString | 是
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 示例代码:
 
@@ -501,7 +555,7 @@ attribute.customProperties = @{
 [[SolarEngineSDK sharedInstance] trackLoginWithAttributes:attribute];
 ```
 
-#####5.3.6 上报订单事件
+#####5.3.7 上报订单事件
 
 用于进行订单数据分析。
 
@@ -518,7 +572,7 @@ payAmount | 订单金额，单位：元 | double | 否
 currencyType | 展示收益的货币种类，遵循《ISO 4217国际标准》，如 CNY、USD | NSString | 否
 payType | 支付方式：如 alipay、weixin、applepay、paypal 等| NSString | 是 不超过 32 字符
 status | 订单状态| NSString | 是
-customProperties | 自定义属性 | NSDictionary *  | 是
+customProperties | 自定义属性 | NSDictionary  | 是
 
 示例代码:
 
@@ -561,7 +615,7 @@ NSDictionary *properties = @{ @"product_name" : @"商品名",
 
 #### 5.5 时长事件
 
-如果您需要记录某个事件的持续时长，可以调用 `eventStart:` 来开始计时，配置您想要计时的事件名称，当您结束该事件时，需要调用 `eventFinish:properties:`，它将会自动在您的事件属性中加入 `_duration` 这一属性来表示记录的时长，单位为秒。需要注意的是，同一个事件名只能有一个在计时的任务。
+如果您需要记录某个事件的持续时长，可以调用 `eventStart:` 来开始计时，配置您想要计时的事件名称，事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40。当您结束该事件时，需要调用 `eventFinish:properties:`，它将会自动在您的事件属性中加入 `_duration` 这一属性来表示记录的时长，单位为秒。需要注意的是，同一个事件名只能有一个在计时的任务。
 
 ```Objective-C
 // 用户进入商品页面，开始计时，记录的事件为 "Enter_Shop"
