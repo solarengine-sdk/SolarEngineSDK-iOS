@@ -9,6 +9,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// 内置事件类型
+typedef NS_ENUM(NSUInteger, SEPresetEventType) {
+    SEPresetEventTypeAppInstall,
+    SEPresetEventTypeAppStart,
+    SEPresetEventTypeAppEnd,
+    SEPresetEventTypeAppAll // 该事件表示全部内置事件
+};
+
 /*
 该枚举自 SDK v1.1.0（包含）版本后废弃。需要传相应的字符串值（即下方应传值），
 
@@ -65,6 +73,20 @@ extern NSString * const SEAdImpressionPropertyCurrency;
 extern NSString * const SEAdImpressionPropertyMediationPlatform;
 extern NSString * const SEAdImpressionPropertyRendered;
 
+
+extern NSString * const SEAppAttrPropertyIsAttr;
+extern NSString * const SEAppAttrPropertyAdNetwork;
+extern NSString * const SEAppAttrPropertySubChannel;
+extern NSString * const SEAppAttrPropertyAdAccountID;
+extern NSString * const SEAppAttrPropertyAdAccountName;
+extern NSString * const SEAppAttrPropertyAdCampaignID;
+extern NSString * const SEAppAttrPropertyAdCampaignName;
+extern NSString * const SEAppAttrPropertyAdOfferID;
+extern NSString * const SEAppAttrPropertyAdOfferName;
+extern NSString * const SEAppAttrPropertyAdCreativeID;
+extern NSString * const SEAppAttrPropertyAdCreativeName;
+extern NSString * const SEAppAttrPropertyAttributionPlatform;
+
 /*
  IAP Event properties
  */
@@ -99,6 +121,9 @@ extern NSString * const SEOrderPropertyCurrencyType;
 extern NSString * const SEOrderPropertyPayType;
 extern NSString * const SEOrderPropertyStatus;
 
+extern NSString * const SERemoteConfigCombinationID;
+extern NSString * const SERemoteConfigGroupID;
+extern NSString * const SERemoteConfigEnterGroupID;
 
 /*
  PayType
@@ -182,7 +207,10 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 @property (nonatomic, assign) SolarEngineIAPStatus payStatus;
 
 /// 支付失败的原因
-@property (nonatomic, copy)  NSString *failReason;
+@property (nonatomic, copy) NSString *failReason;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -256,6 +284,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 /// 是否渲染（默认值为 YES）
 @property (nonatomic, assign) BOOL rendered;
 
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
 @end
 
 
@@ -268,6 +299,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 /// 注册状态
 @property (nonatomic, copy) NSString *registerStatus;
 
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
 @end
 
 /// 登录事件属性
@@ -278,6 +312,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 /// 登录状态
 @property (nonatomic, copy) NSString *loginStatus;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -298,6 +335,9 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 
 /// 订单状态
 @property (nonatomic, copy) NSString *status;
+
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
 
 @end
 
@@ -359,11 +399,55 @@ typedef NS_ENUM(NSInteger, SolarEngineAdType) {
 /// mediationPlatform 聚合平台标识，没有聚合平台标识，请设置为 "custom"
 @property (nonatomic, copy, nonnull) NSString *mediationPlatform;
 
+/// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
+@end
+
+@interface SEAppAttrEventAttribute : NSObject
+
+// 投放广告的渠道 ID，需要与发行平台匹配
+@property (nonatomic, copy) NSString *adNetwork;
+
+// 投放广告的子渠道
+@property (nonatomic, copy) NSString *subChannel;
+
+// 投放广告的投放账号 ID
+@property (nonatomic, copy) NSString *adAccountID;
+
+// 投放广告的投放账号名称
+@property (nonatomic, copy) NSString *adAccountName;
+
+// 投放广告的广告计划 ID
+@property (nonatomic, copy) NSString *adCampaignID;
+
+// 投放广告的广告计划名称
+@property (nonatomic, copy) NSString *adCampaignName;
+
+// 投放广告的广告单元 ID
+@property (nonatomic, copy) NSString *adOfferID;
+
+// 投放广告的广告单元名称
+@property (nonatomic, copy) NSString *adOfferName;
+
+// 投放广告的广告创意 ID
+@property (nonatomic, copy) NSString *adCreativeID;
+
+// 投放广告的广告创意名称
+@property (nonatomic, copy) NSString *adCreativeName;
+
+// 监测平台
+@property (nonatomic, copy) NSString *attributionPlatform;
+
+// 自定义属性
+@property (nonatomic, copy) NSDictionary *customProperties;
+
 @end
 
 
 @interface SEEventConstants : NSObject
 
 @end
+
 
 NS_ASSUME_NONNULL_END

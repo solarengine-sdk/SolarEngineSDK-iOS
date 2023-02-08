@@ -8,6 +8,23 @@
 #import <Foundation/Foundation.h>
 #import <SolarEngineSDK/SEEventConstants.h>
 
+#define SESDKVersion @"1.1.6.0"
+
+@class UIView, UIViewController;
+
+@interface SEConfig : NSObject
+
+/// 是否开启 Debug 模式（不设置时默认不开启 Debug 模式）
+@property (nonatomic, assign) BOOL isDebug;
+
+/// 是否为GDPR区域，默认为不做GDPR区域限制
+@property (nonatomic, assign) BOOL isGDPRArea;
+
+///  设置自定义 URL。需在 SDK 初始化之前调用
+@property(nonatomic, assign, nullable) NSString *customURL;
+
+@end
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SolarEngineSDK : NSObject
@@ -17,21 +34,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 初始化 SDK
 /// @param appKey  应用 appKey，请联系商务人员获取。不允许空
-/// @param SEUserId 用户 ID
-- (void)setAppKey:(nonnull NSString *)appKey withSEUserId:(nonnull NSString *)SEUserId;
+/// @param userId 用户 ID，请联系商务人员获取。不允许空
+/// @param config 配置信息
+- (void)startWithAppKey:(nonnull NSString *)appKey userId:(nonnull NSString *)userId config:(SEConfig *)config;
 
-/// 是否开启 Debug 模式（不设置时默认不开启 Debug 模式）
-/// @param isDebug YES 表示开启，NO 表示关闭（上线前请设置为 NO）
-- (void)setDebugModel:(BOOL)isDebug;
+/// 是否开启 GDPR区域限制（不设置时默认不开启 GDPR区域限制）
+/// @param isGDPRArea YES 表示开启，NO 表示关闭（开启后SDK将不获取IDFA、IDFV）
+- (void)setGDPRArea:(BOOL)isGDPRArea;
 
-/// 设置自定义 URL。需在 SDK 初始化之前调用
-/// @param urlString 自定义 URL
-- (void)setCustomURLString:(NSString *)urlString;
+/// 该接口已废弃，请使用startWithAppKey:userId:config: 接口的 config.isDebug 设置debugModel
+//- (void)setDebugModel:(BOOL)isDebug;
+
+/// 该接口已废弃，请使用startWithAppKey:userId:config: 接口的 config.customURL 设置自定义URL
+//- (void)setCustomURLString:(NSString *)urlString;
+
+/// 设置预置事件属性
+/// @param eventType 事件类型
+/// @param properties 事件属性
+- (void)setPresetEvent:(SEPresetEventType)eventType withProperties:(NSDictionary*)properties;
 
 #pragma 事件
 
 /// 上报自定义事件
-/// @param eventName 事件名称
+/// @param eventName 事件名称 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 /// @param properties 事件属性
 - (void)track:(NSString *)eventName withProperties:(NSDictionary *)properties;
 
@@ -47,6 +72,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param attribute  SEAdClickEventAttribute 实例
 - (void)trackAdClickWithAttributes:(SEAdClickEventAttribute *)attribute;
 
+/// 上报归因事件
+/// @param attribute SEAppAttrEventAttribute 实例
+- (void)trackAppAttrWithAttributes:(SEAppAttrEventAttribute *)attribute;
+
 /// 上报注册事件
 /// @param attribute  SERegisterEventAttribute 实例
 - (void)trackRegisterWithAttributes:(SERegisterEventAttribute *)attribute;
@@ -59,12 +88,22 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param attribute  SEOrderEventAttribute 实例
 - (void)trackOrderWithAttributes:(SEOrderEventAttribute *)attribute;
 
+/// 上报浏览 App 页面事件
+/// @param viewController 视图控制器
+/// @param properties 自定义属性
+- (void)trackAppViewScreen:(UIViewController *)viewController withProperties:(NSDictionary *)properties;
+
+/// 上报元素信息事件
+/// @param view 页面元素（视图、控件）
+/// @param properties 自定义属性
+- (void)trackAppClick:(UIView *)view withProperties:(NSDictionary *)properties;
+
 /// 开启记录时长事件（配合 - eventFinish:properties: 方法一起使用 ）
-/// @param eventName 事件名
+/// @param eventName 事件名 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 - (void)eventStart:(NSString *)eventName;
 
 /// 结束并上报记录时长事件（配合 - eventStart: 方法一起使用 ）
-/// @param eventName 事件名
+/// @param eventName 事件名 事件名支持大小写中英文、数字、下划线，不能以下划线开头，长度不超过 40
 /// @param properties 自定义属性
 - (void)eventFinish:(NSString *)eventName properties:(NSDictionary * _Nullable )properties;
 
