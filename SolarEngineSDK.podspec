@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SolarEngineSDK'
-  s.version          = '1.1.5.0'
+  s.version          = '1.1.6.0'
   s.summary          = 'Official SolarEngineSDK for iOS.'
 
   s.homepage         = 'https://www.solar-engine.com'
