@@ -8,11 +8,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SolarEngineSDK'
-  s.version          = '1.1.1'
+  s.version          = '1.1.5.0'
   s.summary          = 'Official SolarEngineSDK for iOS.'
 
   s.homepage         = 'https://www.solar-engine.com'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.license          =  { :type => "Apache License, Version 2.0" }
   s.summary          = 'Official SolarEngineSDK for iOS.'
   s.author           = { 'solar-engine' => 'sdk@solar-engine.com' }
   s.source           = { :git => 'https://github.com/solarengine-sdk/SolarEngineSDK-iOS.git', :tag => s.version.to_s }
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.vendored_frameworks = 'SolarEngineSDK/SolarEngineSDK.framework'
 
-  s.frameworks = "Security", "CoreTelephony", "AdSupport", "SystemConfiguration"
+  s.frameworks = "Security", "CoreTelephony", "AdSupport", "SystemConfiguration", "iAd", "AdServices", "AppTrackingTransparency"
   s.libraries = "sqlite3"
   s.requires_arc = true
   
