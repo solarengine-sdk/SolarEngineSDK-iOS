@@ -17,6 +17,13 @@ typedef NS_ENUM(NSUInteger, SEPresetEventType) {
     SEPresetEventTypeAppAll // 该事件表示全部内置事件
 };
 
+typedef NS_OPTIONS(NSInteger, SEAutoTrackEventType) {
+    SEAutoTrackEventTypeNone          = 0,      // 不开启自动追踪
+    SEAutoTrackEventTypeAppClick      = 1 << 0, // 自动追踪控件点击
+    SEAutoTrackEventTypeAppViewScreen = 1 << 1, // 自动追踪页面浏览
+};
+
+
 /*
 该枚举自 SDK v1.1.0（包含）版本后废弃。需要传相应的字符串值（即下方应传值），
 
@@ -120,10 +127,6 @@ extern NSString * const SEOrderPropertyPayAmount;
 extern NSString * const SEOrderPropertyCurrencyType;
 extern NSString * const SEOrderPropertyPayType;
 extern NSString * const SEOrderPropertyStatus;
-
-extern NSString * const SERemoteConfigCombinationID;
-extern NSString * const SERemoteConfigGroupID;
-extern NSString * const SERemoteConfigEnterGroupID;
 
 /*
  PayType
