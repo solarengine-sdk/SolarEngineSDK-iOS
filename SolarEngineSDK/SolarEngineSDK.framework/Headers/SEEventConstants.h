@@ -23,6 +23,11 @@ typedef NS_OPTIONS(NSInteger, SEAutoTrackEventType) {
     SEAutoTrackEventTypeAppViewScreen = 1 << 1, // 自动追踪页面浏览
 };
 
+typedef NS_OPTIONS(NSInteger, SEUserDeleteType) {
+    SEUserDeleteTypeByAccountId, // 通过AccountId删除用户
+    SEUserDeleteTypeByVisitorId, // 通过VisitorId删除用户
+};
+
 
 /*
 该枚举自 SDK v1.1.0（包含）版本后废弃。需要传相应的字符串值（即下方应传值），

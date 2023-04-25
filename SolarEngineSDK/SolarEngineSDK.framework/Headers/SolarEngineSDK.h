@@ -9,7 +9,7 @@
 #import <SolarEngineSDK/SEEventConstants.h>
 #import <UIKit/UIKit.h>
 
-#define SESDKVersion @"1.1.8.0"
+#define SESDKVersion @"1.1.9.0"
 
 @class UIView, UIViewController;
 
@@ -187,7 +187,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)userAppend:(NSDictionary *)properties;
 
 /// 删除用户
-- (void)userDelete;
+/// @param deleteType 删除用户的类型，
+/// SEUserDeleteTypeByAccountId：通过AccountId删除用户
+/// SEUserDeleteTypeByVisitorId：   通过VisitorId删除用户
+- (void)userDelete:(SEUserDeleteType)deleteType;
 
 @end
 
