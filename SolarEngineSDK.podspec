@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.author           = { 'solar-engine' => 'sdk@solar-engine.com' }
   s.source           = { :git => 'https://github.com/solarengine-sdk/SolarEngineSDK-iOS.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '11.0'
   s.vendored_frameworks = 'SolarEngineSDK/SolarEngineSDK.framework'
 
   s.frameworks = "Security", "CoreTelephony", "AdSupport", "SystemConfiguration", "iAd", "AdServices", "AppTrackingTransparency"
