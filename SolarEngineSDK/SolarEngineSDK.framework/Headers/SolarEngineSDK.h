@@ -9,9 +9,51 @@
 #import <SolarEngineSDK/SEEventConstants.h>
 #import <UIKit/UIKit.h>
 
-#define SESDKVersion @"1.1.9.0"
+#define SESDKVersion @"1.2.0.0"
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSInteger, SERCMergeType) {
+    SERCMergeTypeDefault      = 0, // 默认策略，读取缓存配置+默认配置跟服务端配置合并
+    SERCMergeTypeUser         = 1, // App版本更新时，使用默认配置+服务端合并（丢弃缓存配置）
+};
+
 
 @class UIView, UIViewController;
+
+@interface SERemoteConfig : NSObject
+
+/**1
+ 线参数SDK启用开关，默认为关闭状态
+*/
+@property (nonatomic, assign) BOOL enable;
+
+/**
+自定义ID, 用来匹配用户在后台设置规则时设置的自定义ID
+*/
+@property (nonatomic, strong) NSDictionary *customIDProperties;
+
+/**
+ * 自定义ID 事件属性
+ */
+@property (nonatomic, strong) NSDictionary *customIDEventProperties;
+
+/**
+ * 自定义ID 用户属性
+ */
+@property (nonatomic, strong) NSDictionary *customIDUserProperties;
+
+/**
+SDK配置合并策略，默认情况下服务端配置跟本地缓存配置合并
+ENUM：SERCMergeTypeUser 在App版本更新时会清除缓存配置
+*/
+@property (nonatomic, assign) SERCMergeType mergeType;
+
+/// 是否开启 本地调试日志（不设置时默认不开启 本地日志）
+@property (nonatomic, assign) BOOL logEnabled;
+
+@end
+
 
 @interface SEConfig : NSObject
 
@@ -25,15 +67,14 @@
 /// 是否为GDPR区域，默认为不做GDPR区域限制
 @property (nonatomic, assign) BOOL isGDPRArea;
 
-///  设置自定义 URL。需在 SDK 初始化之前调用
-@property(nonatomic, strong, nullable) NSString *customURL;
-
 /// 自动追踪埋点采集类型，SDK默认不开启自动追踪埋点采集
 @property(nonatomic, assign) SEAutoTrackEventType autoTrackEventType;
 
-@end
+@property (nonatomic, assign) BOOL disableRecordLog;
 
-NS_ASSUME_NONNULL_BEGIN
+@property (nonatomic, strong) SERemoteConfig * remoteConfig;
+
+@end
 
 @interface SolarEngineSDK : NSObject
 
@@ -49,12 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 是否开启 GDPR区域限制（不设置时默认不开启 GDPR区域限制）
 /// @param isGDPRArea YES 表示开启，NO 表示关闭（开启后SDK将不获取IDFA、IDFV）
 - (void)setGDPRArea:(BOOL)isGDPRArea;
-
-/// 该接口已废弃，请使用startWithAppKey:userId:config: 接口的 config.isDebug 设置debugModel
-//- (void)setDebugModel:(BOOL)isDebug;
-
-/// 该接口已废弃，请使用startWithAppKey:userId:config: 接口的 config.customURL 设置自定义URL
-//- (void)setCustomURLString:(NSString *)urlString;
 
 /// 设置预置事件属性
 /// @param eventType 事件类型
