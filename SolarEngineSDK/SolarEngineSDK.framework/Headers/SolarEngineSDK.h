@@ -9,7 +9,7 @@
 #import <SolarEngineSDK/SEEventConstants.h>
 #import <UIKit/UIKit.h>
 
-#define SESDKVersion @"1.2.0.0"
+#define SESDKVersion @"1.2.1.0"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, SERCMergeType) {
     SERCMergeTypeUser         = 1, // App版本更新时，使用默认配置+服务端合并（丢弃缓存配置）
 };
 
+
+typedef void (^SEAttributionCallback)(int code, NSDictionary * _Nullable attributionData);
 
 @class UIView, UIViewController;
 
@@ -95,6 +97,26 @@ ENUM：SERCMergeTypeUser 在App版本更新时会清除缓存配置
 /// @param eventType 事件类型
 /// @param properties 事件属性
 - (void)setPresetEvent:(SEPresetEventType)eventType withProperties:(NSDictionary*)properties;
+
+/*
+ code说明如下。
+ 0: 获取到归因结果，归因结果在attributionData中
+ 非0为获取归因结果失败，情况如下：
+ 100: _appKey无效
+ 101:_distinct_id无效
+ 102: _distinct_id_type无效
+ 1001: 网络错误，SDK链接服务端失败
+ 1002: 当次启动请求超过10次还未获取到归因结果
+ 1003: 具体上次轮询请求归因结果小于5分钟，请5分钟后再试
+ 1004: 该用户超过15天未获取到归因结果，此次安装内将不再请求归因结果
+ */
+/// 设置获取归因结果回调，请在初始化SDK前设置回调
+/// 当有归因结果或者获取归因结果失败时回调，error.cod如上描述
+- (void)setAttributionCallback:(SEAttributionCallback)Callback;
+
+/// 获取归因结果
+/// 如果没有归因结果则返回nil
+- (NSDictionary *)getAttributionData;
 
 #pragma 事件
 
