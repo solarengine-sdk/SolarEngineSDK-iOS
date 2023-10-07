@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SolarEngineSDK'
-  s.version          = '1.2.3.1'
+  s.version          = '1.2.4.0'
   s.summary          = 'Official SolarEngineSDK for iOS.'
 
   s.homepage         = 'https://www.solar-engine.com'
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.vendored_frameworks = 'SolarEngineSDK/SolarEngineSDK.framework'
 
-  s.frameworks = "Security", "CoreTelephony", "AdSupport", "SystemConfiguration", "iAd", "AdServices", "AppTrackingTransparency"
+  s.frameworks = "Security", "CoreTelephony", "AdSupport", "SystemConfiguration", "AdServices", "AppTrackingTransparency"
   s.libraries = "sqlite3"
   s.requires_arc = true
   
